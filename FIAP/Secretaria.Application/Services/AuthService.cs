@@ -31,7 +31,8 @@ namespace Secretaria.Application.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, admin.Email),
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim("role", "Admin")
             };
 
             var key = new SymmetricSecurityKey(

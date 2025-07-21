@@ -49,7 +49,15 @@ namespace Secretaria.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CadastrarAluno([FromBody] AlunoRequestDto request)
         {
-            await _alunoValidator.ValidateAsync(request);
+            var validationResult = await _alunoValidator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                var erros = validationResult.Errors
+                    .Select(e => new { Campo = e.PropertyName, Erro = e.ErrorMessage });
+
+                return StatusCode(StatusCodes.Status400BadRequest, new { erros });
+            }
 
             try
             {
@@ -140,7 +148,15 @@ namespace Secretaria.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AtualizarCadastro([FromBody] AlunoRequestDto request)
         {
-            await _alunoValidator.ValidateAsync(request);
+            var validationResult = await _alunoValidator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                var erros = validationResult.Errors
+                    .Select(e => new { Campo = e.PropertyName, Erro = e.ErrorMessage });
+
+                return StatusCode(StatusCodes.Status400BadRequest, new { erros });
+            }
 
             try
             {

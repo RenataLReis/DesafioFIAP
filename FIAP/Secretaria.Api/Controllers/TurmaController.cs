@@ -43,7 +43,15 @@ namespace Secretaria.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CriarTurma([FromBody] TurmaRequestDto request)
         {
-            await _turmaValidator.ValidateAsync(request);
+            var validationResult = await _turmaValidator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                var erros = validationResult.Errors
+                    .Select(e => new { Campo = e.PropertyName, Erro = e.ErrorMessage });
+
+                return StatusCode(StatusCodes.Status400BadRequest, new { erros });
+            }
 
             try
             {
@@ -111,7 +119,15 @@ namespace Secretaria.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AtualizarCadastro([FromBody] TurmaRequestDto request)
         {
-            await _turmaValidator.ValidateAsync(request);
+            var validationResult = await _turmaValidator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                var erros = validationResult.Errors
+                    .Select(e => new { Campo = e.PropertyName, Erro = e.ErrorMessage });
+
+                return StatusCode(StatusCodes.Status400BadRequest, new { erros });
+            }
 
             try
             {
