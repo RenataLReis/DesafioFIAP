@@ -8,12 +8,10 @@ namespace Secretaria.Application.UseCases.Turma.Queries
     public class ObterTurmaComListaAlunosUseCase : IObterTurmaComListaAlunosUseCase
     {
         public readonly ITurmaRepository _turmaRepository;
-        public readonly IAlunoRepository _alunoRepository;
 
-        public ObterTurmaComListaAlunosUseCase(ITurmaRepository turmaRepository, IAlunoRepository alunoRepository)
+        public ObterTurmaComListaAlunosUseCase(ITurmaRepository turmaRepository)
         {
             _turmaRepository = turmaRepository ?? throw new ArgumentNullException(nameof(turmaRepository));
-            _alunoRepository = alunoRepository ?? throw new ArgumentNullException(nameof(alunoRepository));
         }
 
         public async Task<ResultadoPaginadoDto<TurmaDto>> ExecuteAsync(int turmaId, int page = 1, int pageSize = 10)

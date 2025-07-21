@@ -10,7 +10,6 @@ namespace Secretaria.Domain.Interfaces
         Task<IEnumerable<Aluno>> ObterTodosAsync();
         Task CadastrarAsync(Aluno aluno);
         Task AtualizarAsync(Aluno aluno);
-        Task RemoverAsync(int id);
-        Task<bool> ExisteAsync(int id);        
+        Task RemoverAsync(int id);       
     }
 }

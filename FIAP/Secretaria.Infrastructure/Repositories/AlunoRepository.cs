@@ -55,10 +55,5 @@ namespace Secretaria.Infrastructure.Repositories
             _dbContext.Alunos.Remove(aluno);
             await _dbContext.SaveChangesAsync();
         }
-
-        public async Task<bool> ExisteAsync(int id)
-        {
-            return await _dbContext.Alunos.AnyAsync(a => a.Id == id);
-        }
     }
 }

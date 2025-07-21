@@ -57,10 +57,5 @@ namespace Secretaria.Infrastructure.Repositories
             _dbContext.Turmas.Remove(turma);
             await _dbContext.SaveChangesAsync();
         }
-
-        public async Task<bool> ExisteAsync(int id)
-        {
-            return await _dbContext.Turmas.AnyAsync(t => t.Id == id);
-        }
     }
 }

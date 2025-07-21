@@ -7,7 +7,7 @@
         public string? Descricao { get; private set; }
         public ICollection<Matricula> Matriculas { get; private set; } = new List<Matricula>();
 
-        protected Turma() { }
+        public Turma() { }
 
         public Turma(string nome, string? descricao)
         {

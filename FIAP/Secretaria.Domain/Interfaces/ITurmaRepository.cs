@@ -9,7 +9,6 @@ namespace Secretaria.Domain.Interfaces
         Task<IEnumerable<Turma>> ObterTodasAsync();
         Task<Turma> CadastrarAsync(Turma turma);
         Task AtualizarAsync(Turma turma);
-        Task RemoverAsync(int id);
-        Task<bool> ExisteAsync(int id);       
+        Task RemoverAsync(int id);    
     }
 }

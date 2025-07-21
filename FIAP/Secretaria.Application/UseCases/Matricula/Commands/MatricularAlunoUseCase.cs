@@ -19,7 +19,9 @@ namespace Secretaria.Application.UseCases.Matricula.Commands
             IGeradorNumeroMatricula geradorNumeroMatricula)
         {
             _alunoRepository = alunoRepository ?? throw new ArgumentNullException(nameof(alunoRepository));
+            _turmaRepository = turmaRepository ?? throw new ArgumentNullException(nameof(turmaRepository));
             _matriculaRepository = matriculaRepository ?? throw new ArgumentNullException(nameof(matriculaRepository));
+            _geradorNumeroMatricula = geradorNumeroMatricula ?? throw new ArgumentNullException(nameof(geradorNumeroMatricula));
         }
 
         public async Task<MatriculaDto> ExecuteAsync(MatricularAlunoRequestDto requestDto)

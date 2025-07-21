@@ -7,12 +7,10 @@ namespace Secretaria.Domain.Interfaces
         Task CriarAsync(Matricula matricula);
         Task AtualizarAsync(Matricula matricula);
         Task RemoverAsync(int id);
-        Task<bool> ExisteAsync(int id);
         Task<Matricula?> ObterPorIdAsync(int id);
         Task<IEnumerable<Matricula>> ObterTodasAsync();
         Task<IEnumerable<Matricula>> ObterPorAlunoIdAsync(int alunoId);
         Task<IEnumerable<Matricula>> ObterPorTurmaIdAsync(int turmaId);
-        Task<IEnumerable<Matricula>> ObterAtivasPorAlunoIdAsync(int alunoId);
         Task<string?> ObterUltimoNumeroAsync(string ano);
     }
 }

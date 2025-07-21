@@ -36,11 +36,6 @@ namespace Secretaria.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> ExisteAsync(int id)
-        {
-            return await _dbContext.Matriculas.AnyAsync(m => m.Id == id);
-        }
-
         public async Task<Matricula?> ObterPorIdAsync(int id)
         {
             return await _dbContext.Matriculas
@@ -72,15 +67,6 @@ namespace Secretaria.Infrastructure.Repositories
                 .Include(m => m.Aluno)
                 .Include(m => m.Turma)
                 .Where(m => m.TurmaId == turmaId)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Matricula>> ObterAtivasPorAlunoIdAsync(int alunoId)
-        {
-            return await _dbContext.Matriculas
-                .Include(m => m.Aluno)
-                .Include(m => m.Turma)
-                .Where(m => m.AlunoId == alunoId && m.Ativa)
                 .ToListAsync();
         }
 
