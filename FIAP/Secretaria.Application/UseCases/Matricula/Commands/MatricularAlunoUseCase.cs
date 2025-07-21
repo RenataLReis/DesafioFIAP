@@ -1,0 +1,59 @@
+﻿using Secretaria.Application.Dtos.Matricula;
+using Secretaria.Application.Interfaces;
+using Secretaria.Application.Services;
+using Secretaria.Domain.Interfaces;
+
+namespace Secretaria.Application.UseCases.Matricula.Commands
+{
+    public class MatricularAlunoUseCase
+    {
+        private readonly IAlunoRepository _alunoRepository;
+        private readonly ITurmaRepository _turmaRepository;
+        private readonly IMatriculaRepository _matriculaRepository; 
+        private readonly IGeradorNumeroMatricula _geradorNumeroMatricula;
+
+        public MatricularAlunoUseCase(
+            IAlunoRepository alunoRepository, 
+            ITurmaRepository turmaRepository, 
+            IMatriculaRepository matriculaRepository,
+            GeradorNumeroMatricula geradorNumeroMatricula)
+        {
+            _alunoRepository = alunoRepository ?? throw new ArgumentNullException(nameof(alunoRepository));
+            _matriculaRepository = matriculaRepository ?? throw new ArgumentNullException(nameof(matriculaRepository));
+        }
+
+        public async Task<MatriculaDto> ExecuteAsync(MatricularAlunoRequestDto requestDto)
+        {           
+            var aluno = await _alunoRepository.ObterPorIdAsync(requestDto.AlunoId);
+
+            if (aluno == null)
+                throw new InvalidOperationException($"Aluno com ID '{requestDto.AlunoId}' não encontrado.");
+
+            var turma = await _turmaRepository.ObterPorIdAsync(requestDto.TurmaId);
+
+            if (turma == null)
+                throw new InvalidOperationException($"Turma com ID '{requestDto.TurmaId}' não encontrada.");
+
+            var ano = DateTime.Now.Year.ToString().Substring(2,2);
+
+            var ultimaMatriculaAno = await _matriculaRepository.ObterUltimoNumeroAsync(ano) ?? "0";
+
+            var numeroMatricula = _geradorNumeroMatricula.Gerar(ultimaMatriculaAno, ano);
+
+            var matricula = Domain.Entities.Matricula.Criar(requestDto.AlunoId, requestDto.TurmaId, numeroMatricula);
+
+            await _matriculaRepository.CriarAsync(matricula);
+
+            return new MatriculaDto
+            {
+                Id = matricula.Id,
+                AlunoId = matricula.AlunoId,
+                AlunoNome = aluno.Nome,
+                TurmaId = matricula.TurmaId,
+                NomeTurma = turma.Nome,
+                Numero = matricula.Numero,
+                Ativa = matricula.Ativa
+            };
+        }
+    }
+}
