@@ -19,13 +19,5 @@
         {
             return new Turma(nome, descricao);
         }
-
-        public void Excluir()
-        {
-            // Implementar lógica de exclusão, se necessário
-            // Por exemplo, definir um estado de exclusão ou remover da coleção
-            // No entanto, a exclusão física pode não ser recomendada em sistemas reais
-            throw new NotImplementedException("Lógica de exclusão não implementada.");
-        }
     }
 }

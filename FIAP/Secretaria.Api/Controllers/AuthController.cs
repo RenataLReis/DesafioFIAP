@@ -6,7 +6,7 @@ using Secretaria.Application.Services;
 namespace Secretaria.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("auth/")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;

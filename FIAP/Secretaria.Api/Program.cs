@@ -1,6 +1,5 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -72,12 +71,17 @@ builder.Services.AddScoped<IAtualizarSenhaUseCase, AtualizarSenhaUseCase>();
 builder.Services.AddScoped<ICadastrarAlunoUseCase, CadastrarAlunoUseCase>();
 builder.Services.AddScoped<IObterAlunoPorCpfUseCase, ObterAlunoPorCpfUseCase>();
 builder.Services.AddScoped<IObterAlunoPorNomeUseCase, ObterAlunoPorNomeUseCase>();
+builder.Services.AddScoped<IObterTodosAlunosUseCase, ObterTodosAlunosUseCase>();
+builder.Services.AddScoped<IRemoverAlunoUseCase, RemoverAlunoUseCase>();
 ///Matricula
 builder.Services.AddScoped<IMatricularAlunoUseCase, MatricularAlunoUseCase>();
 builder.Services.AddScoped<ITrancarMatriculaUseCase, TrancarMatriculaUseCase>();
 ///Turma
 builder.Services.AddScoped<ICriarTurmaUseCase, CriarTurmaUseCase>();
 builder.Services.AddScoped<IObterTurmaComListaAlunosUseCase, ObterTurmaComListaAlunosUseCase>();
+builder.Services.AddScoped<IObterTodasTurmasUseCase, ObterTodasTurmasUseCase>();
+builder.Services.AddScoped<IAtualizarTurmaUseCase, AtualizarTurmaUseCase>();
+builder.Services.AddScoped<IRemoverTurmaUseCase, RemoverTurmaUseCase>();
 
 
 //Validators

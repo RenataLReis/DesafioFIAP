@@ -1,4 +1,5 @@
-﻿using Secretaria.Application.Dtos.Turma;
+﻿using Secretaria.Application.Dtos.Shared;
+using Secretaria.Application.Dtos.Turma;
 using Secretaria.Application.Interfaces.Turma.Queries;
 using Secretaria.Domain.Interfaces;
 
@@ -15,7 +16,7 @@ namespace Secretaria.Application.UseCases.Turma.Queries
             _alunoRepository = alunoRepository ?? throw new ArgumentNullException(nameof(alunoRepository));
         }
 
-        public async Task<TurmaDto> ExecuteAsync(int turmaId, int page = 1, int pageSize = 10)
+        public async Task<ResultadoPaginadoDto<TurmaDto>> ExecuteAsync(int turmaId, int page = 1, int pageSize = 10)
         {
             var turma = await _turmaRepository.ObterPorIdAsync(turmaId);
 
@@ -40,15 +41,20 @@ namespace Secretaria.Application.UseCases.Turma.Queries
                 })
                 .ToList();
 
-            return new TurmaDto
+            var turmaDto = new TurmaDto
             {
                 Id = turma.Id,
                 Nome = turma.Nome,
                 Descricao = turma.Descricao,
-                Alunos = alunosPaginados,
-                TotalAlunos = totalAlunos,
+                Alunos = alunosPaginados
+            };
+
+            return new ResultadoPaginadoDto<TurmaDto>
+            {
+                Itens = new List<TurmaDto> { turmaDto },
+                Pagina = page,
                 TotalPaginas = totalPaginas,
-                PaginaAtual = page
+                TotalItens = totalAlunos
             };
         }
     }

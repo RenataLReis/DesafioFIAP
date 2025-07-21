@@ -3,8 +3,8 @@ using Secretaria.Application.Dtos.Turma;
 
 namespace Secretaria.Application.Interfaces.Turma.Queries
 {
-    public interface IObterTurmaComListaAlunosUseCase
+    public interface IObterTodasTurmasUseCase
     {
-        Task<ResultadoPaginadoDto<TurmaDto>> ExecuteAsync(int turmaId, int page = 1, int pageSize = 10);
+        Task<ResultadoPaginadoDto<TurmaDto>> ExecuteAsync(int page = 1, int pageSize = 10);
     }
 }

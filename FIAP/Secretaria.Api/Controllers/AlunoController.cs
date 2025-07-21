@@ -14,13 +14,14 @@ namespace Secretaria.Api.Controllers
     [Authorize(Roles = "Admin")]
     public class AlunoController : ControllerBase
     {
-        public readonly IValidator<AlunoRequestDto> _alunoValidator;
-        public readonly ICadastrarAlunoUseCase _cadastrarAlunoUseCase;
-        public readonly IObterAlunoPorNomeUseCase _obterAlunoPorNomeUseCase;
-        public readonly IObterAlunoPorCpfUseCase _obterAlunoPorCpfUseCase;
-        public readonly IAtualizarCadastroAlunoUseCase _atualizarCadastroAlunoUseCase;
-        public readonly IAtualizarSenhaUseCase _atualizarSenhaUseCase;
-        public readonly IRemoverAlunoUseCase _removerAlunoUseCase;
+        private readonly IValidator<AlunoRequestDto> _alunoValidator;
+        private readonly ICadastrarAlunoUseCase _cadastrarAlunoUseCase;
+        private readonly IObterAlunoPorNomeUseCase _obterAlunoPorNomeUseCase;
+        private readonly IObterAlunoPorCpfUseCase _obterAlunoPorCpfUseCase;
+        private readonly IObterTodosAlunosUseCase _obterTodosAlunosUseCase;  
+        private readonly IAtualizarCadastroAlunoUseCase _atualizarCadastroAlunoUseCase;
+        private readonly IAtualizarSenhaUseCase _atualizarSenhaUseCase;
+        private readonly IRemoverAlunoUseCase _removerAlunoUseCase;
 
 
         public AlunoController(
@@ -28,6 +29,7 @@ namespace Secretaria.Api.Controllers
             ICadastrarAlunoUseCase cadastrarAlunoUseCase,
             IObterAlunoPorNomeUseCase obterAlunoPorNomeUseCase,
             IObterAlunoPorCpfUseCase obterAlunoPorCpfUseCase,
+            IObterTodosAlunosUseCase obterTodosAlunosUseCase,
             IAtualizarCadastroAlunoUseCase atualizarEmailUseCase,
             IAtualizarSenhaUseCase atualizarSenhaUseCase,
             IRemoverAlunoUseCase removerAlunoUseCase)
@@ -36,6 +38,7 @@ namespace Secretaria.Api.Controllers
             _cadastrarAlunoUseCase = cadastrarAlunoUseCase ?? throw new ArgumentNullException(nameof(cadastrarAlunoUseCase));
             _obterAlunoPorNomeUseCase = obterAlunoPorNomeUseCase ?? throw new ArgumentNullException(nameof(obterAlunoPorNomeUseCase));
             _obterAlunoPorCpfUseCase = obterAlunoPorCpfUseCase ?? throw new ArgumentNullException(nameof(obterAlunoPorCpfUseCase));
+            _obterTodosAlunosUseCase = obterTodosAlunosUseCase ?? throw new ArgumentNullException(nameof(obterTodosAlunosUseCase));
             _atualizarCadastroAlunoUseCase = atualizarEmailUseCase ?? throw new ArgumentNullException(nameof(atualizarEmailUseCase));
             _atualizarSenhaUseCase = atualizarSenhaUseCase ?? throw new ArgumentNullException(nameof(atualizarSenhaUseCase));
             _removerAlunoUseCase = removerAlunoUseCase ?? throw new ArgumentNullException(nameof(removerAlunoUseCase));
@@ -102,6 +105,28 @@ namespace Secretaria.Api.Controllers
                     return StatusCode(StatusCodes.Status404NotFound, new { erro = $"Aluno com CPF '{cpf}' não encontrado." });
 
                 return StatusCode(StatusCodes.Status200OK, aluno);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { erro = ex.Message });
+            }
+        }
+
+        [HttpGet("/aluno/todos")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ObterTodosAlunos()
+        {
+            try
+            {
+                var aluno = await _obterTodosAlunosUseCase.ExecuteAsync(1, 10);
+
+                return StatusCode(StatusCodes.Status200OK, aluno);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new { erro = ex.Message });
             }
             catch (Exception ex)
             {
