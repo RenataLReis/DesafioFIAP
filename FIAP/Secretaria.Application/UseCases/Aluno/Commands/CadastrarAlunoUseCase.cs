@@ -1,9 +1,10 @@
 ﻿using Secretaria.Application.Dtos.Aluno;
+using Secretaria.Application.Interfaces.Aluno.Commands;
 using Secretaria.Domain.Interfaces;
 
 namespace Secretaria.Application.UseCases.Aluno.Commands
 {
-    public class CadastrarAlunoUseCase
+    public class CadastrarAlunoUseCase : ICadastrarAlunoUseCase
     {
         private readonly IAlunoRepository _alunoRepository;
         public CadastrarAlunoUseCase(IAlunoRepository alunoRepository)
@@ -11,7 +12,7 @@ namespace Secretaria.Application.UseCases.Aluno.Commands
             _alunoRepository = alunoRepository ?? throw new ArgumentNullException(nameof(alunoRepository));
         }
 
-        public async Task ExecuteAsync(CadastrarAlunoRequestDto request)
+        public async Task ExecuteAsync(AlunoRequestDto request)
         {
 
             if (await _alunoRepository.ObterPorCpfAsync(request.CPF) != null)

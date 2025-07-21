@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Secretaria.Application.Dtos.Administrador;
-using Secretaria.Application.Interfaces;
+using Secretaria.Application.Services;
 
 namespace Secretaria.Api.Controllers
 {
@@ -55,6 +55,7 @@ namespace Secretaria.Api.Controllers
             try
             {
                 await _authService.CadastrarAdminAsync(request);
+
                 return StatusCode(StatusCodes.Status201Created, new { mensagem = "Administrador cadastrado com sucesso." });
             }
             catch (InvalidOperationException ex)

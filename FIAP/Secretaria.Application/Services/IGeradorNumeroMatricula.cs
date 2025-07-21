@@ -1,4 +1,4 @@
-﻿namespace Secretaria.Application.Interfaces
+﻿namespace Secretaria.Application.Services
 {
     public interface IGeradorNumeroMatricula
     {

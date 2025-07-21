@@ -1,8 +1,9 @@
-﻿using Secretaria.Domain.Interfaces;
+﻿using Secretaria.Application.Interfaces.Aluno.Queries;
+using Secretaria.Domain.Interfaces;
 
 namespace Secretaria.Application.UseCases.Aluno.Queries
 {
-    public class ObterAlunoPorCpfUseCase
+    public class ObterAlunoPorCpfUseCase : IObterAlunoPorCpfUseCase
     {
         public readonly IAlunoRepository _alunoRepository;
 

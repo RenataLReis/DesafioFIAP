@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Secretaria.Application.Dtos.Matricula;
+using Secretaria.Application.Interfaces.Matricula.Commands;
 using Secretaria.Application.UseCases.Matricula.Commands;
 
 namespace Secretaria.Api.Controllers
@@ -11,8 +12,8 @@ namespace Secretaria.Api.Controllers
     [Authorize(Roles = "Admin")]
     public class MatriculaController : ControllerBase
     {
-        private readonly MatricularAlunoUseCase _matricularAlunoUseCase;
-        private readonly TrancarMatriculaUseCase _trancarMatriculaUseCase;
+        private readonly IMatricularAlunoUseCase _matricularAlunoUseCase;
+        private readonly ITrancarMatriculaUseCase _trancarMatriculaUseCase;
 
         public MatriculaController(MatricularAlunoUseCase matricularAlunoUseCase, TrancarMatriculaUseCase trancarMatriculaUseCase)
         {
@@ -23,34 +24,40 @@ namespace Secretaria.Api.Controllers
         [HttpPost("/matricular-aluno")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> MatricularAluno([FromBody] MatricularAlunoRequestDto requestDto)
         {
             try
             {
                 var matriculaDto = await _matricularAlunoUseCase.ExecuteAsync(requestDto);
 
-                return Ok(matriculaDto);
+                return StatusCode(StatusCodes.Status200OK, new { matricula = matriculaDto });
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { erro = ex.Message });
+                return StatusCode(StatusCodes.Status400BadRequest, new { erro = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { erro = ex.Message });
             }
         }
 
         [HttpPatch("/trancar-matricula/{numero}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> TrancarMatricula([FromRoute] int id)
         {
             try
             {
                 await _trancarMatriculaUseCase.ExecuteAsync(id);
-                return NoContent();
+
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { erro = ex.Message });
+                return StatusCode(StatusCodes.Status404NotFound, new { erro = ex.Message });
             }
             catch (Exception ex)
             {

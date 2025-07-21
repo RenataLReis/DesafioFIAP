@@ -1,6 +1,4 @@
-﻿using Secretaria.Application.Interfaces;
-
-namespace Secretaria.Application.Services
+﻿namespace Secretaria.Application.Services
 {
     public class GeradorNumeroMatricula : IGeradorNumeroMatricula
     {

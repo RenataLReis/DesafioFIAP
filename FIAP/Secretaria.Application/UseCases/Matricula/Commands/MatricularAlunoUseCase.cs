@@ -1,11 +1,11 @@
 ﻿using Secretaria.Application.Dtos.Matricula;
-using Secretaria.Application.Interfaces;
+using Secretaria.Application.Interfaces.Matricula.Commands;
 using Secretaria.Application.Services;
 using Secretaria.Domain.Interfaces;
 
 namespace Secretaria.Application.UseCases.Matricula.Commands
 {
-    public class MatricularAlunoUseCase
+    public class MatricularAlunoUseCase : IMatricularAlunoUseCase
     {
         private readonly IAlunoRepository _alunoRepository;
         private readonly ITurmaRepository _turmaRepository;
@@ -16,7 +16,7 @@ namespace Secretaria.Application.UseCases.Matricula.Commands
             IAlunoRepository alunoRepository, 
             ITurmaRepository turmaRepository, 
             IMatriculaRepository matriculaRepository,
-            GeradorNumeroMatricula geradorNumeroMatricula)
+            IGeradorNumeroMatricula geradorNumeroMatricula)
         {
             _alunoRepository = alunoRepository ?? throw new ArgumentNullException(nameof(alunoRepository));
             _matriculaRepository = matriculaRepository ?? throw new ArgumentNullException(nameof(matriculaRepository));

@@ -1,6 +1,6 @@
 ﻿using Secretaria.Application.Dtos.Administrador;
 
-namespace Secretaria.Application.Interfaces
+namespace Secretaria.Application.Services
 {
     public interface IAuthService
     {

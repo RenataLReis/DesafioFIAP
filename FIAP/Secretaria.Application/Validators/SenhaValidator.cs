@@ -2,9 +2,9 @@
 
 namespace Secretaria.Application.Validators
 {
-    public class PasswordValidator : AbstractValidator<string>
+    public class SenhaValidator : AbstractValidator<string>
     {
-        public PasswordValidator()
+        public SenhaValidator()
         {
             RuleFor(senha => senha)
                 .NotEmpty().WithMessage("A senha é obrigatória.")

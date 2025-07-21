@@ -1,6 +1,6 @@
 ﻿namespace Secretaria.Application.Dtos.Aluno
 {
-    public class CadastrarAlunoRequestDto
+    public class AlunoRequestDto
     {
         public required string Nome { get; set; }
         public DateTime DataNascimento { get; set; }

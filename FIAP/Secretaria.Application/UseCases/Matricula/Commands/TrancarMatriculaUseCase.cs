@@ -1,8 +1,9 @@
-﻿using Secretaria.Domain.Interfaces;
+﻿using Secretaria.Application.Interfaces.Matricula.Commands;
+using Secretaria.Domain.Interfaces;
 
 namespace Secretaria.Application.UseCases.Matricula.Commands
 {
-    public class TrancarMatriculaUseCase
+    public class TrancarMatriculaUseCase : ITrancarMatriculaUseCase
     {
         private readonly IMatriculaRepository _matriculaRepository;
         public TrancarMatriculaUseCase(IMatriculaRepository matriculaRepository)

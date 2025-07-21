@@ -1,9 +1,10 @@
 ﻿using Secretaria.Application.Dtos.Turma;
+using Secretaria.Application.Interfaces.Turma.Queries;
 using Secretaria.Domain.Interfaces;
 
 namespace Secretaria.Application.UseCases.Turma.Queries
 {
-    public class ObterTurmaComListaAlunosUseCase
+    public class ObterTurmaComListaAlunosUseCase : IObterTurmaComListaAlunosUseCase
     {
         public readonly ITurmaRepository _turmaRepository;
         public readonly IAlunoRepository _alunoRepository;
